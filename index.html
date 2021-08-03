@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <div class="row">
+        <div class="col-md-12 form-inline">
+            <div class="col-md-3"><input id="nametxt" type="text" class="form-control" placeholder="Enter name" required="required"></div>
+            <div class="col-md-3"><input id="emailtxt" type="text" class="form-control" placeholder="Enter email" required="required"></div>
+            <div class="col-md-3"><input id="citytxt" type="text" class="form-control" placeholder="Enter city" required="required"></div>
+            <div class="col-md-3"><input id="insert" type="submit" value="Add" class="btn bt-default btn-primary"></div>
+        </div>
+    </div>
+
+
+    <table id="tablerecords" class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>City</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+</head>
+
+<body>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
+
+
+
+<script>
+    var name;
+    var email;
+    var city;
+    var row;
+    $(document).ready(function () {
+        $("#insert").click(function () { GetInputFields(); clearfields(); });
+        $("#tablerecords").on('click', '.btnedit', function () { row = $(this).parent().parent().index(); EditInputfields(row); });
+        $("#tablerecords").on('click', '.btnupdate', function () { UpdateRow(row); })
+        $("#tablerecords").on('click', '.btndelete', function () { DeleteRow(row); })
+    });
+
+
+    //Input Fields and append in table
+
+    function GetInputFields() {
+
+        name = $("#nametxt").val();
+        email = $("#emailtxt").val();
+        city = $("#citytxt").val();
+
+        if (name == '' || email == '' || city == '') {
+            alert("Please fill allfields")
+
+        }
+        else {
+
+            $("#tablerecords tbody").append("<tr><td> " + name + " </td><td> " + email + " </td><td> " + city + " </td><td><input id='edit' type='button' value='Edit' class='btn bt-default btn-primary btnedit'><input id='delete' type='button' value='Delete' class='btn bt-default btn-danger btndelete'></td></tr>")
+        }
+    }
+
+    // clear fields
+    function clearfields() {
+        $("#nametxt").val('');
+        $("#emailtxt").val('');
+        $("#citytxt").val('');
+    }
+
+    // Edit Fields
+    function EditInputfields(row) {
+        name = $("#tablerecords tbody tr:eq(" + row + ")  td:eq(0)").html();
+        email = $("#tablerecords tbody tr:eq(" + row + ") td:eq(1)").html();
+        city = $("#tablerecords tbody tr:eq(" + row + ") td:eq(2)").html();
+        $("#tablerecords tbody tr:eq(" + row + ")  td:eq(3)").remove();
+        $("#tablerecords tbody tr:eq(" + row + ")").append("<td:eq(3)><input id='Update' type='button' value='Update' class='btn bt-default btn-primary btnupdate'><input id='delete' type='button' value='Delete' class='btn bt-default btn-danger btndelete'></td>")
+        $("#nametxt").val(name);
+        $("#emailtxt").val(email);
+        $("#citytxt").val(city);
+    }
+
+    // Update Fields
+    function UpdateRow(row) {
+        name = $("#nametxt").val();
+        email = $("#emailtxt").val();
+        city = $("#citytxt").val();
+        var updated_row = "<tr><td> " + name + " </td><td> " + email + " </td><td> " + city + " </td><td><input id='edit' type='button' value='Edit' class='btn bt-default btn-primary btnedit'><input id='delete' type='button' value='Delete' class='btn bt-default btn-danger btndelete'></td></tr>"
+        $("#tablerecords tbody tr:eq(" + row + ")").replaceWith(updated_row);
+        clearfields();
+    }
+
+    // Delete Fields
+    function DeleteRow(row) {
+        clearfields();
+        $("#tablerecords tbody tr:eq(" + row + ")").remove();
+        clearfields();
+    }
+
+</script>
